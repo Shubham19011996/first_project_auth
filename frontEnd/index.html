@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+    <div
+      style="display: flex; justify-content: space-between; padding: 0px 100px"
+    >
+      <div id="notes">loading</div>
+      <div>
+        <input type="text" id="usernote" />
+        <button onclick="addTodo()">create a note</button>
+      </div>
+    </div>
+    <script>
+      async function addTodo() {
+        await axios.post(
+          "http://localhost:3000/notes",
+          {
+            note: document.getElementById("usernote").value,
+          },
+          {
+            headers: {
+              token: localStorage.getItem("token"),
+            },
+          },
+        );
+        const newNote = document.createElement("div");
+        newNote.innerHTML = document.getElementById("usernote").value;
+        newNote.setAttribute("style", "border: 2px solid black; padding: 10px");
+        document.getElementById("notes").appendChild(newNote);
+
+        document.getElementById("usernote").value = "";
+      }
+      async function gettodos() {
+        const response = await axios.get("http://localhost:3000/notes", {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        });
+        console.log(response.data.notes);
+        const notes = response.data.notes;
+        document.getElementById("notes").innerHTML = "";
+        for (let i = 0; i < notes.length; i++) {
+          const nodeNote = document.createElement("div");
+          nodeNote.innerHTML = notes[i].note;
+          nodeNote.setAttribute(
+            "style",
+            "border: 2px solid black; padding: 10px",
+          );
+
+          document.getElementById("notes").appendChild(nodeNote);
+        }
+      }
+      gettodos();
+    </script>
+  </body>
+</html>
