@@ -18,7 +18,6 @@ app.post("/signup", (req, res) => {
   res.json({ message: "you have signed up" });
 });
 
-
 app.post("/signin", function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
