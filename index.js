@@ -4,7 +4,7 @@ const { middleware } = require("./middleware");
 
 const app = express();
 app.use(express.json());
- 
+
 const notes = [];
 const users = [{}];
 app.post("/signup", (req, res) => {
